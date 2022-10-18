@@ -1,3 +1,13 @@
+# Writing Logs to a File, in JSON
+log:
+  filePath: "/dev/stdout"
+  format: json
+  # level: DEBUG
+
+# https://doc.traefik.io/traefik/operations/ping/
+# healthcheck: https://doc.traefik.io/traefik/operations/cli/#healthcheck
+ping: {}
+
 # https://doc.traefik.io/traefik/providers/docker/#network
 providers:
   docker:
