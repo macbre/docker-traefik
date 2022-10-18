@@ -1,0 +1,59 @@
+# https://doc.traefik.io/traefik/providers/docker/#network
+providers:
+  docker:
+    exposedByDefault: false
+    watch: true  # Watch Docker events.
+    allowEmptyServices: true  # Any servers load balancer defined for Docker containers is created regardless of the healthiness of the corresponding containers.
+
+# https://doc.traefik.io/traefik/observability/metrics/prometheus/
+metrics:
+  prometheus: {}
+
+# https://doc.traefik.io/traefik/operations/dashboard/#insecure-mode
+api:
+  dashboard: true
+  insecure: true
+
+
+# https://doc.traefik.io/traefik/migration/v1-to-v2/#http-to-https-redirection-is-now-configured-on-routers
+# https://doc.traefik.io/traefik/routing/entrypoints/#http3
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entrypoint:
+          to: websecure
+          scheme: https
+
+  websecure:
+    address: ":443"
+    http3: {}
+
+
+# https://doc.traefik.io/traefik/routing/entrypoints/#http3
+experimental:
+  http3: true
+
+# https://doc.traefik.io/traefik/https/acme/
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      # email will be taken from env variable
+      storage: acme.json
+      httpChallenge:
+        # used during the challenge
+        entryPoint: web
+
+
+# https://doc.traefik.io/traefik/observability/access-logs/
+accessLog:
+  format: json
+  filters:
+    statusCodes:
+      - "200"
+      - "300-302"
+      - "400-499"
+      - "500-599"
+    retryAttempts: true
+    minDuration: "10ms"
