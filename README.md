@@ -12,6 +12,40 @@ docker-compose pull
 docker-compose up
 ```
 
+## Making Docker containers auto-discoverable
+
+1. This Traefik instance runs on `public-network` network. Your containers should also use it:
+
+```yaml
+# make your ... container discoverable by traefik
+# https://docs.docker.com/compose/networking/#configure-the-default-network
+#
+# docker network create public-network
+networks:
+  default:
+    name: public-network
+    external: true
+```
+
+2. Add labels to your container.
+
+```yaml
+    # https://doc.traefik.io/traefik/user-guides/docker-compose/basic-example/
+    labels:
+      traefik.enable: true
+      traefik.http.routers.wordpress.tls.certresolver: letsencrypt
+      traefik.http.routers.wordpress.rule: Host(`<your domain, e.g. myservice.foo.net>`)
+      # https://doc.traefik.io/traefik/routing/services/#servers
+      traefik.http.services.wordpress.loadbalancer.server.port: "< port where your services is bound too >"
+      # https://doc.traefik.io/traefik/routing/services/#health-check
+      traefik.http.services.wordpress.loadbalancer.healthCheck.path: "< healthcheck path >"
+      traefik.http.services.wordpress.loadbalancer.healthCheck.method: "HEAD"
+      traefik.http.services.wordpress.loadbalancer.healthCheck.scheme: "http"
+      traefik.http.services.wordpress.loadbalancer.healthCheck.interval: "10s"
+```
+
+3. Make sure that your container own healthcheck also passes. Traefik filters out containers that do not pass Docker healthchecks.
+
 ## Notes
 
 This container exposes both http (80) and https (443) ports. It **supports both http/2 and http/3**.
