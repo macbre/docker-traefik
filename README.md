@@ -36,7 +36,7 @@ networks:
       traefik.http.routers.wordpress.tls.certresolver: letsencrypt
       traefik.http.routers.wordpress.rule: Host(`<your domain, e.g. myservice.foo.net>`)
       # https://doc.traefik.io/traefik/routing/services/#servers
-      traefik.http.services.wordpress.loadbalancer.server.port: "< port where your services is bound too >"
+      traefik.http.services.wordpress.loadbalancer.server.port: "< port where your service is bound too >"
       # https://doc.traefik.io/traefik/routing/services/#health-check
       traefik.http.services.wordpress.loadbalancer.healthCheck.path: "< healthcheck path >"
       traefik.http.services.wordpress.loadbalancer.healthCheck.method: "HEAD"
