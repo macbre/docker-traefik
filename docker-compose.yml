@@ -17,7 +17,7 @@
 #  default:
 #    name: public_network  # use this network to expose your containers
 #
-version: "3.4"
+version: "2.4"
 
 services:
 
@@ -37,6 +37,7 @@ services:
     volumes:
       - "./traefik.yml:/etc/traefik/traefik.yml:ro"
       - /var/run/docker.sock:/var/run/docker.sock:ro  # for containers discovery
+      - "letsencrypt_certs:/letsencrypt/"  # certificates storage
 
     # https://doc.traefik.io/traefik/reference/static-configuration/env/
     environment:
@@ -47,6 +48,9 @@ services:
       interval: 15s
       timeout: 1s
       retries: 5
+
+volumes:
+  letsencrypt_certs:
 
 # https://docs.docker.com/compose/networking/#configure-the-default-network
 networks:
