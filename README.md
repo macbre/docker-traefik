@@ -9,7 +9,7 @@ Dockerized traefik with auto-discovery of other containers on the same Docker ne
 ```
 docker network create public-network
 docker-compose pull
-docker-compose up
+docker-compose up -d
 ```
 
 ## Making Docker containers auto-discoverable
@@ -36,12 +36,7 @@ networks:
       traefik.http.routers.wordpress.tls.certresolver: letsencrypt
       traefik.http.routers.wordpress.rule: Host(`<your domain, e.g. myservice.foo.net>`)
       # https://doc.traefik.io/traefik/routing/services/#servers
-      traefik.http.services.wordpress.loadbalancer.server.port: "< port where your service is bound too >"
-      # https://doc.traefik.io/traefik/routing/services/#health-check
-      traefik.http.services.wordpress.loadbalancer.healthCheck.path: "< healthcheck path >"
-      traefik.http.services.wordpress.loadbalancer.healthCheck.method: "HEAD"
-      traefik.http.services.wordpress.loadbalancer.healthCheck.scheme: "http"
-      traefik.http.services.wordpress.loadbalancer.healthCheck.interval: "10s"
+      traefik.http.services.wordpress.loadbalancer.server.port: "< port where your service is bound too >"  # or rely on ports defined via EXPOSE
 ```
 
 3. Make sure that your container own healthcheck also passes. Traefik filters out containers that do not pass Docker healthchecks.
