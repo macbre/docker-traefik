@@ -26,7 +26,9 @@ services:
     image: traefik:v2.9
     container_name: traefik
     hostname: traefik
-    restart: on-failure
+    restart: always
+    command:
+      - "--log.level=${LOG_LEVEL:-INFO}"
 
     ports:
       - 127.0.0.1:${DASHBOARD_PORT:-58888}:8080  # bind to local interface only!
