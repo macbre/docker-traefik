@@ -30,16 +30,17 @@ api:
 # https://doc.traefik.io/traefik/routing/entrypoints/#http3
 entryPoints:
   web:
-    address: ":80"
+    address: ":1080"
     http:
       redirections:
         entrypoint:
-          to: websecure
+          to: ":443"   # as exposed on the host, otherwise we'd get redirects to https://foo.bar:1443/ URLs ...
           scheme: https
 
   websecure:
-    address: ":443"
-    http3: {}
+    address: ":1443"
+    http3:
+      advertisedPort: 443
 
 
 # https://doc.traefik.io/traefik/routing/entrypoints/#http3

@@ -28,12 +28,13 @@ services:
     container_name: traefik
     hostname: traefik
     restart: always
+    # user: nobody  # root is needed to talk to docker.sock
 
     ports:
       - 127.0.0.1:${DASHBOARD_PORT:-58888}:8080  # bind to local interface only!
-      - ${HTTP_PORT:-80}:80
-      - ${HTTPS_PORT:-443}:443/tcp
-      - ${HTTPS_PORT:-443}:443/udp # for http3 (quic)
+      - ${HTTP_PORT:-80}:1080
+      - ${HTTPS_PORT:-443}:1443/tcp
+      - ${HTTPS_PORT:-443}:1443/udp # for http3 (quic)
 
     volumes:
       - "./traefik.yml:/etc/traefik/traefik.yml:ro"
