@@ -12,6 +12,7 @@ ping: {}
 # https://doc.traefik.io/traefik/providers/docker/#network
 providers:
   docker:
+    endpoint: "tcp://socket-proxy:2375"  # https://github.com/Tecnativa/docker-socket-proxy#why
     exposedByDefault: false
     watch: true  # Watch Docker events.
     allowEmptyServices: true  # Any servers load balancer defined for Docker containers is created regardless of the healthiness of the corresponding containers.

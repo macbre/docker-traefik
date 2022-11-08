@@ -28,7 +28,7 @@ services:
     container_name: traefik
     hostname: traefik
     restart: always
-    # user: nobody  # root is needed to talk to docker.sock
+    user: nobody
 
     ports:
       - 127.0.0.1:${DASHBOARD_PORT:-58888}:8080  # bind to local interface only!
@@ -51,6 +51,18 @@ services:
       interval: 15s
       timeout: 1s
       retries: 5
+
+  # https://github.com/Tecnativa/docker-socket-proxy
+  socket-proxy:
+    image: tecnativa/docker-socket-proxy:0.1
+    container_name: docker-socket-proxy
+    restart: always
+    user: root  # needed to mount the docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    # https://github.com/Tecnativa/docker-socket-proxy#grant-or-revoke-access-to-certain-api-sections
+    environment:
+      CONTAINERS: 1  # only allow GET requests to the containers API section
 
 volumes:
   letsencrypt_certs:
