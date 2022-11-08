@@ -1,7 +1,9 @@
 # Writing Logs to a File, in JSON
 log:
   filePath: "/dev/stdout"
-  format: json
+  format: common
+  # level: DEBUG
+  level: INFO
 
 # https://doc.traefik.io/traefik/operations/ping/
 # healthcheck: https://doc.traefik.io/traefik/operations/cli/#healthcheck
@@ -10,6 +12,7 @@ ping: {}
 # https://doc.traefik.io/traefik/providers/docker/#network
 providers:
   docker:
+    endpoint: "tcp://socket-proxy:2375"  # https://github.com/Tecnativa/docker-socket-proxy#why
     exposedByDefault: false
     watch: true  # Watch Docker events.
     allowEmptyServices: true  # Any servers load balancer defined for Docker containers is created regardless of the healthiness of the corresponding containers.
@@ -28,16 +31,17 @@ api:
 # https://doc.traefik.io/traefik/routing/entrypoints/#http3
 entryPoints:
   web:
-    address: ":80"
+    address: ":1080"
     http:
       redirections:
         entrypoint:
-          to: websecure
+          to: ":443"   # as exposed on the host, otherwise we'd get redirects to https://foo.bar:1443/ URLs ...
           scheme: https
 
   websecure:
-    address: ":443"
-    http3: {}
+    address: ":1443"
+    http3:
+      advertisedPort: 443
 
 
 # https://doc.traefik.io/traefik/routing/entrypoints/#http3
