@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Start the traefik container
+        run: |
+          set -x
+          docker-compose -f docker-compose.yml -f tests/docker-compose.yml pull --quiet
+          docker network create public-network
+
+          LOG_LEVEL=DEBUG \
+            docker-compose up -d
+
+          sleep 2
+          docker ps
+
+      - name: Get some Traefik details
+        run: |
+          curl -s 127.0.0.1:58888/api/http/routers | jq -r '.[] | .service' | sort
+          curl -s 127.0.0.1:58888/metrics | grep traefik_config_reloads_total
+
+      - name: Start nginx container
+        run: |
+          set -x
+          cd tests/
+          docker-compose up -d
+
+          sleep 2
+          docker ps
+
+          curl -svo /dev/null 0:5555/foo
+
+      - name: Make sure that the nginx has been discovered by Traefik
+        run: |
+          set -x
+          curl -s 127.0.0.1:58888/api/http/routers | jq -r '.[] | .service' | grep nginx
+
+      - name: Requests routing by the domain
+        run: |
+          set -x
+          curl --resolve nginx.foo.bar:80:127.0.0.1 nginx.foo.bar -sI | grep -i 'location: https://'
+          curl --resolve nginx.foo.bar:443:127.0.0.1 https://nginx.foo.bar/ --insecure -sI | grep "HTTP/2 200"
+
+          # Prometheus metrics are collected for this service
+          curl 127.0.0.1:58888/metrics -s | grep 'nginx@docker' | grep service_request
+
+      - name: Show logs
+        if: ${{ always() }}  # run this step regardless of the tests failing or passing
+        run: |
+          set -x
+          docker ps
+          docker logs traefik
+          docker logs nginx
