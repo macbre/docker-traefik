@@ -2,7 +2,8 @@
 log:
   filePath: "/dev/stdout"
   format: common
-  level: DEBUG
+  # level: DEBUG
+  level: INFO
 
 # https://doc.traefik.io/traefik/operations/ping/
 # healthcheck: https://doc.traefik.io/traefik/operations/cli/#healthcheck
