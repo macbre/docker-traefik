@@ -8,8 +8,9 @@ services:
     ports:
       - "5555:5555"
     volumes:
-      - "./nginx-static.conf:/etc/nginx/conf.d/nginx-static.conf"
-    # user: nobody
+      - "./nginx-static.conf:/etc/nginx/conf.d/nginx-static.conf:ro"
+      - "./nginx.conf:/etc/nginx/nginx.conf:ro"
+    user: nobody
 
     labels:
       traefik.enable: true
