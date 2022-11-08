@@ -4,6 +4,7 @@ services:
   nginx:
     # https://github.com/macbre/docker-nginx-http3
     image: ghcr.io/macbre/nginx-http3:1.23.2
+    container_name: nginx
     ports:
       - "5555:5555"
     volumes:
@@ -12,9 +13,9 @@ services:
 
     labels:
       traefik.enable: true
-      traefik.http.routers.wordpress.tls.certresolver: letsencrypt
-      traefik.http.routers.wordpress.rule: Host(`nginx.foo.bar`)
-      traefik.http.services.wordpress.loadbalancer.server.port: 5555
+      traefik.http.routers.nginx.tls.certresolver: letsencrypt
+      traefik.http.routers.nginx.rule: Host(`nginx.foo.bar`)
+      traefik.http.services.nginx.loadbalancer.server.port: 5555
 
     healthcheck:
       test: 'wget --spider 0:5555'
