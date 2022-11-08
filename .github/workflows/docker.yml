@@ -28,7 +28,7 @@ jobs:
           set -x
 
           docker inspect traefik | jq .[].Config.Labels | grep 'org.opencontainers'
-          docker exec traefik whoami | grep root
+          docker exec traefik whoami | grep nobody
 
           curl -s 127.0.0.1:58888/api/http/routers | jq -r '.[] | .service' | sort
           curl -s 127.0.0.1:58888/metrics | grep traefik_config_reloads_total
