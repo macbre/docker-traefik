@@ -1,4 +1,6 @@
 # docker-traefik
+[![CI](https://github.com/macbre/docker-traefik/actions/workflows/docker.yml/badge.svg)](https://github.com/macbre/docker-traefik/actions/workflows/docker.yml)
+
 Dockerized traefik with auto-discovery of other containers on the same Docker network.
 
 ## Installing
