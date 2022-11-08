@@ -1,7 +1,8 @@
 # Writing Logs to a File, in JSON
 log:
   filePath: "/dev/stdout"
-  format: json
+  format: common
+  level: DEBUG
 
 # https://doc.traefik.io/traefik/operations/ping/
 # healthcheck: https://doc.traefik.io/traefik/operations/cli/#healthcheck
