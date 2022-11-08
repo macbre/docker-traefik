@@ -50,6 +50,7 @@ jobs:
         run: |
           set -x
           curl --resolve nginx.foo.bar:80:127.0.0.1 nginx.foo.bar -sI | grep -i 'location: https://'
+          curl --resolve nginx.foo.bar:443:127.0.0.1 https://nginx.foo.bar/ --insecure -I | grep "HTTP/2 200"
 
       - name: Show logs
         if: ${{ always() }}  # run this step regardless of the tests failing or passing
