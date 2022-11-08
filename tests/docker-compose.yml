@@ -16,6 +16,12 @@ services:
       traefik.http.routers.wordpress.rule: Host(`nginx.foo.bar`)
       traefik.http.services.wordpress.loadbalancer.server.port: 5555
 
+    healthcheck:
+      test: 'wget --spider 0:5555'
+      interval: 1s
+      timeout: 1s
+      retries: 2
+
 networks:
   default:
     name: public-network
