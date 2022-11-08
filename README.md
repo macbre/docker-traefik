@@ -1,7 +1,9 @@
 # docker-traefik
 [![CI](https://github.com/macbre/docker-traefik/actions/workflows/docker.yml/badge.svg)](https://github.com/macbre/docker-traefik/actions/workflows/docker.yml)
 
-Dockerized traefik with auto-discovery of other containers on the same Docker network.
+Dockerized `traefik` with auto-discovery of other containers on the same Docker network.
+
+The **`traefik` container runs as nobody** and uses proxy to get restricted and limited access to the Docker socket.
 
 ## Installing
 
