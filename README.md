@@ -37,10 +37,9 @@ networks:
     # https://doc.traefik.io/traefik/user-guides/docker-compose/basic-example/
     labels:
       traefik.enable: true
-      traefik.http.routers.wordpress.tls.certresolver: letsencrypt
-      traefik.http.routers.wordpress.rule: Host(`<your domain, e.g. myservice.foo.net>`)
-      # https://doc.traefik.io/traefik/routing/services/#servers
-      traefik.http.services.wordpress.loadbalancer.server.port: "< port where your service is bound too >"  # or rely on ports defined via EXPOSE
+      traefik.http.routers.<your app name>.tls.certresolver: letsencrypt
+      traefik.http.routers.<your app name>.rule: Host(`<your domain, e.g. myservice.foo.net>`)
+      traefik.http.services.<your app name>.loadbalancer.server.port: "< port where your service is bound too >"  # or rely on ports defined via EXPOSE
 ```
 
 3. Make sure that your container own healthcheck also passes. Traefik filters out containers that do not pass Docker healthchecks.
@@ -61,7 +60,7 @@ dashboard@internal
 noop@internal
 ping@internal
 prometheus@internal
-wordpress
+<your app name>
 ```
 
 ```
