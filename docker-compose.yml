@@ -39,7 +39,7 @@ services:
     volumes:
       - "./traefik.yml:/etc/traefik/traefik.yml:ro"
       - /var/run/docker.sock:/var/run/docker.sock:ro  # for containers discovery
-      - "letsencrypt_certs:/letsencrypt/"  # certificates storage
+      - "./letsencrypt:/var/log/letsencrypt/"  # certificates storage
 
     # https://doc.traefik.io/traefik/reference/static-configuration/env/
     environment:
@@ -63,9 +63,6 @@ services:
     # https://github.com/Tecnativa/docker-socket-proxy#grant-or-revoke-access-to-certain-api-sections
     environment:
       CONTAINERS: 1  # only allow GET requests to the containers API section
-
-volumes:
-  letsencrypt_certs:
 
 # https://docs.docker.com/compose/networking/#configure-the-default-network
 networks:

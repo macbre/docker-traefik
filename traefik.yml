@@ -53,7 +53,7 @@ certificatesResolvers:
   letsencrypt:
     acme:
       # email will be taken from env variable
-      storage: "/letsencrypt/acme.json"
+      storage: "/var/log/letsencrypt/acme.json"
       httpChallenge:
         # used during the challenge
         entryPoint: web
