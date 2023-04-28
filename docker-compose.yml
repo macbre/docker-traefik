@@ -38,7 +38,6 @@ services:
 
     volumes:
       - "./traefik.yml:/etc/traefik/traefik.yml:ro"
-      - /var/run/docker.sock:/var/run/docker.sock:ro  # for containers discovery
       - "./letsencrypt:/var/log/letsencrypt/"  # certificates storage
 
     # https://doc.traefik.io/traefik/reference/static-configuration/env/
