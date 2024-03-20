@@ -29,7 +29,8 @@ services:
     hostname: traefik
     restart: always
     user: nobody
-    mem_limit: 64M
+    mem_limit: 128M
+    cpus: 0.2
 
     ports:
       - 127.0.0.1:${DASHBOARD_PORT:-58888}:8080  # bind to local interface only!
