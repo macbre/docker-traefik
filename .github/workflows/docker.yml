@@ -21,7 +21,7 @@ jobs:
           sudo chown nobody:nogroup letsencrypt/
 
           LOG_LEVEL=DEBUG \
-            docker-compose up -da
+            docker-compose up -d
 
           sleep 2
           docker ps

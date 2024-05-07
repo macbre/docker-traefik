@@ -3,7 +3,7 @@ version: "3.2"
 services:
   nginx:
     # https://github.com/macbre/docker-nginx-http3
-    image: ghcr.io/macbre/nginx-http3:v1.25.4
+    image: ghcr.io/macbre/nginx-http3:1.25.4
     container_name: nginx
     ports:
       - "5555:5555"
