@@ -44,10 +44,6 @@ entryPoints:
       advertisedPort: 443
 
 
-# https://doc.traefik.io/traefik/routing/entrypoints/#http3
-experimental:
-  http3: true
-
 # https://doc.traefik.io/traefik/https/acme/
 certificatesResolvers:
   letsencrypt:
