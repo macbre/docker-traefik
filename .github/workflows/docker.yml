@@ -17,8 +17,11 @@ jobs:
           docker-compose -f docker-compose.yml -f tests/docker-compose.yml pull --quiet
           docker network create public-network
 
+          # make sure the letsencrypt directory is writable by the container
+          sudo chown nobody:nogroup letsencrypt/
+
           LOG_LEVEL=DEBUG \
-            docker-compose up -d
+            docker-compose up -da
 
           sleep 2
           docker ps
