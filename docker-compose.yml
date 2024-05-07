@@ -24,7 +24,7 @@ services:
   # https://doc.traefik.io/traefik/getting-started/install-traefik/
   traefik:
     # https://hub.docker.com/_/traefik/tags
-    image: traefik:v2.11.2
+    image: traefik:v3.0.0
     container_name: traefik
     hostname: traefik
     restart: always
