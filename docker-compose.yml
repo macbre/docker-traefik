@@ -34,6 +34,7 @@ services:
 
     ports:
       - 127.0.0.1:${DASHBOARD_PORT:-58888}:8080  # bind to local interface only!
+      # - 58889:8080  # public bind
       - ${HTTP_PORT:-80}:1080
       - ${HTTPS_PORT:-443}:1443/tcp
       - ${HTTPS_PORT:-443}:1443/udp # for http3 (quic)
@@ -46,6 +47,21 @@ services:
     environment:
       TRAEFIK_CERTIFICATESRESOLVERS_MYRESOLVER_ACME_EMAIL: ${ACME_EMAIL:-foo@acme.net}
       # TRAEFIK_LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+    # expose prom metrics at /traefik/metrics
+    labels:
+      traefik.enable: true
+      traefik.http.routers.traefik-metrics.tls.certresolver: letsencrypt
+      traefik.http.services.traefik-metrics.loadbalancer.server.port: 8080
+
+      # https://doc.traefik.io/traefik/routing/routers/#path-pathprefix-and-pathregexp
+      traefik.http.routers.traefik-metrics.rule: "Host(`${HOSTNAME:-foo.bar}`) && Path(`/traefik/metrics`)"
+      # https://doc.traefik.io/traefik/middlewares/http/replacepath/
+      traefik.http.routers.traefik-metrics.middlewares: "traefik-metrics,served-by"
+      traefik.http.middlewares.traefik-metrics.replacepath.path: "/metrics"
+
+      # https://doc.traefik.io/traefik/middlewares/http/headers/
+      traefik.http.middlewares.served-by.headers.customresponseheaders.X-Served-By: ${HOSTNAME:-foo.bar}
 
     healthcheck:
       test: 'traefik healthcheck'
@@ -83,11 +99,8 @@ services:
       # https://doc.traefik.io/traefik/routing/routers/#path-pathprefix-and-pathregexp
       traefik.http.routers.whoami.rule: "Host(`${HOSTNAME:-foo.bar}`) && Path(`/whoami`)"
       # https://doc.traefik.io/traefik/middlewares/http/replacepath/
+      traefik.http.routers.whoami.middlewares: "whoami,served-by"
       traefik.http.middlewares.whoami.replacepath.path: "/"
-
-      # https://doc.traefik.io/traefik/middlewares/http/headers/
-      traefik.http.middlewares.whoami.headers.customresponseheaders.X-Served-By: ${HOSTNAME:-foo.bar}
-      traefik.http.middlewares.whoami.headers.customresponseheaders.X-Service: 'whoami'
 
 # https://docs.docker.com/compose/networking/#configure-the-default-network
 networks:
