@@ -56,8 +56,8 @@ jobs:
       - name: Requests routing by the domain
         run: |
           set -x
-          curl --resolve nginx.foo.bar:80:127.0.0.1 nginx.foo.bar -sI | grep -i 'location: https://'
-          curl --resolve nginx.foo.bar:443:127.0.0.1 https://nginx.foo.bar/ --insecure -sI | grep "HTTP/2 200"
+          curl --resolve nginx.foo.bar:80:127.0.0.1 nginx.foo.bar -sI | tee /dev/stderr | grep -i 'location: https://'
+          curl --resolve nginx.foo.bar:443:127.0.0.1 https://nginx.foo.bar/ --insecure -sI | tee /dev/stderr | grep "200"
 
           # Prometheus metrics are collected for this service
           curl 127.0.0.1:58888/metrics -s | grep 'nginx@docker' | grep service_request
