@@ -12,6 +12,7 @@ The **`traefik` container runs as nobody** and uses proxy to get restricted and 
 
 ```
 sudo chown nobody:nogroup letsencrypt/
+echo "HOSTNAME=$(hostname)" > .env
 docker network create public-network
 docker-compose pull
 docker-compose up -d
