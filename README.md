@@ -39,7 +39,6 @@ networks:
     # https://doc.traefik.io/traefik/user-guides/docker-compose/basic-example/
     labels:
       traefik.enable: true
-      traefik.http.routers.<your app name>.tls.certresolver: letsencrypt
       traefik.http.routers.<your app name>.rule: Host(`<your domain, e.g. myservice.foo.net>`)
       traefik.http.services.<your app name>.loadbalancer.server.port: "< port where your service is bound too >"  # or rely on ports defined via EXPOSE
 ```
@@ -71,3 +70,12 @@ $ curl -s 127.0.0.1:58888/api/http/services | jq '.[] | .serverStatus'
   "http://172.x.x.x:8080": "UP"
 }
 ```
+
+Responses from HTTP services are getting the `x-served-by` header added automatically (via the `x-served-by@file` middleware), e.g.
+
+```
+$ curl https://localhost/whoami --insecure -H 'Host: macbre.local' -v 2>&1 | grep x-served-by
+< x-served-by: macbre.local
+```
+
+> The response header's value is taken from the `HOSTNAME` env variable.
