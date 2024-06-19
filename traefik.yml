@@ -17,6 +17,11 @@ providers:
     watch: true  # Watch Docker events.
     allowEmptyServices: true  # Any servers load balancer defined for Docker containers is created regardless of the healthiness of the corresponding containers.
 
+  # https://doc.traefik.io/traefik/providers/file/
+  # allows us to define global middlewares for the web entryPoint
+  file:
+    filename: "/etc/traefik/traefik_dynamic_conf.yml"
+
 # https://doc.traefik.io/traefik/observability/metrics/prometheus/
 metrics:
   prometheus: {}
@@ -42,7 +47,11 @@ entryPoints:
     address: ":1443"
     http3:
       advertisedPort: 443
-
+    # https://doc.traefik.io/traefik/routing/entrypoints/#middlewares
+    # middlewares are defined in the traefik_dynamic_conf.yml file
+    http:
+      middlewares:
+        - "x-served-by@file"
 
 # https://doc.traefik.io/traefik/https/acme/
 certificatesResolvers:
