@@ -47,11 +47,14 @@ entryPoints:
     address: ":1443"
     http3:
       advertisedPort: 443
-    # https://doc.traefik.io/traefik/routing/entrypoints/#middlewares
-    # middlewares are defined in the traefik_dynamic_conf.yml file
     http:
+      # https://doc.traefik.io/traefik/routing/entrypoints/#middlewares
+      # middlewares are defined in the traefik_dynamic_conf.yml file
       middlewares:
         - "x-served-by@file"
+      # https://doc.traefik.io/traefik/routing/entrypoints/#tls
+      tls:
+        certResolver: letsencrypt
 
 # https://doc.traefik.io/traefik/https/acme/
 certificatesResolvers:

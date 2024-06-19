@@ -52,13 +52,13 @@ services:
     # expose prom metrics at /traefik/metrics
     labels:
       traefik.enable: true
-      traefik.http.routers.traefik-metrics.tls.certresolver: letsencrypt
       traefik.http.services.traefik-metrics.loadbalancer.server.port: 8080
 
       # https://doc.traefik.io/traefik/routing/routers/#path-pathprefix-and-pathregexp
       traefik.http.routers.traefik-metrics.rule: "Host(`${HOSTNAME:-foo.bar}`) && Path(`/traefik/metrics`)"
-      # https://doc.traefik.io/traefik/middlewares/http/replacepath/
+
       traefik.http.routers.traefik-metrics.middlewares: "traefik-metrics"
+      # https://doc.traefik.io/traefik/middlewares/http/replacepath/
       traefik.http.middlewares.traefik-metrics.replacepath.path: "/metrics"
 
     healthcheck:
@@ -91,11 +91,12 @@ services:
       WHOAMI_NAME: "whoami @ ${HOSTNAME:-foo.bar}"
     labels:
       traefik.enable: true
-      traefik.http.routers.whoami.tls.certresolver: letsencrypt
       traefik.http.services.whoami.loadbalancer.server.port: 80
 
       # https://doc.traefik.io/traefik/routing/routers/#path-pathprefix-and-pathregexp
       traefik.http.routers.whoami.rule: "Host(`${HOSTNAME:-foo.bar}`) && Path(`/whoami`)"
+
+      traefik.http.routers.whoami.middlewares: "whoami"
       # https://doc.traefik.io/traefik/middlewares/http/replacepath/
       traefik.http.middlewares.whoami.replacepath.path: "/"
 
