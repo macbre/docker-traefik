@@ -1,0 +1,8 @@
+http:
+  middlewares:
+    x-served-by:
+      # https://doc.traefik.io/traefik/middlewares/http/headers/
+      # https://doc.traefik.io/traefik/v2.1/providers/file/#go-templating
+      headers:
+        customResponseHeaders:
+          x-served-by: {{ env "HOSTNAME" }}

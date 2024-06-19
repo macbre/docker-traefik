@@ -26,7 +26,6 @@ services:
     # https://hub.docker.com/_/traefik/tags
     image: traefik:v3.0.0
     container_name: traefik
-    hostname: traefik
     restart: always
     user: nobody
     mem_limit: 128M
@@ -41,11 +40,13 @@ services:
 
     volumes:
       - "./traefik.yml:/etc/traefik/traefik.yml:ro"
+      - "./traefik_dynamic_conf.yml:/etc/traefik/traefik_dynamic_conf.yml:ro"
       - "./letsencrypt:/var/log/letsencrypt/"  # certificates storage
 
     # https://doc.traefik.io/traefik/reference/static-configuration/env/
     environment:
       TRAEFIK_CERTIFICATESRESOLVERS_MYRESOLVER_ACME_EMAIL: ${ACME_EMAIL:-foo@acme.net}
+      HOSTNAME: ${HOSTNAME:-traefik}
       # TRAEFIK_LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
     # expose prom metrics at /traefik/metrics
@@ -57,11 +58,8 @@ services:
       # https://doc.traefik.io/traefik/routing/routers/#path-pathprefix-and-pathregexp
       traefik.http.routers.traefik-metrics.rule: "Host(`${HOSTNAME:-foo.bar}`) && Path(`/traefik/metrics`)"
       # https://doc.traefik.io/traefik/middlewares/http/replacepath/
-      traefik.http.routers.traefik-metrics.middlewares: "traefik-metrics,served-by"
+      traefik.http.routers.traefik-metrics.middlewares: "traefik-metrics"
       traefik.http.middlewares.traefik-metrics.replacepath.path: "/metrics"
-
-      # https://doc.traefik.io/traefik/middlewares/http/headers/
-      traefik.http.middlewares.served-by.headers.customresponseheaders.X-Served-By: ${HOSTNAME:-foo.bar}
 
     healthcheck:
       test: 'traefik healthcheck'
@@ -99,7 +97,6 @@ services:
       # https://doc.traefik.io/traefik/routing/routers/#path-pathprefix-and-pathregexp
       traefik.http.routers.whoami.rule: "Host(`${HOSTNAME:-foo.bar}`) && Path(`/whoami`)"
       # https://doc.traefik.io/traefik/middlewares/http/replacepath/
-      traefik.http.routers.whoami.middlewares: "whoami,served-by"
       traefik.http.middlewares.whoami.replacepath.path: "/"
 
 # https://docs.docker.com/compose/networking/#configure-the-default-network
