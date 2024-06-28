@@ -29,6 +29,7 @@ services:
     restart: always
     user: nobody
     mem_limit: 128M
+    hostname: traefik.${HOSTNAME:-foo.bar}
     cpus: 0.2
 
     ports:
