@@ -16,14 +16,14 @@ jobs:
       - name: Start the traefik container
         run: |
           set -x
-          docker-compose -f docker-compose.yml -f tests/docker-compose.yml pull --quiet
+          docker compose -f docker-compose.yml -f tests/docker-compose.yml pull --quiet
           docker network create public-network
 
           # make sure the letsencrypt directory is writable by the container
           sudo chown nobody:nogroup letsencrypt/
 
           LOG_LEVEL=DEBUG HOSTNAME=${HOSTNAME} \
-            docker-compose up -d
+            docker compose up -d
 
           sleep 2
           docker ps
@@ -45,7 +45,7 @@ jobs:
         run: |
           set -x
           cd tests/
-          docker-compose up -d
+          docker compose up -d
 
           sleep 5
           docker ps
