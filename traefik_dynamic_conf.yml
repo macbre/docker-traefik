@@ -7,6 +7,6 @@ http:
         customResponseHeaders:
           x-served-by: {{ env "HOSTNAME" }}
 
-  # https://doc.traefik.io/traefik/middlewares/http/compress/
-  compress-responses:
-    compress: true
+    compress-responses:
+      # https://doc.traefik.io/traefik/middlewares/http/compress/
+      compress: true
