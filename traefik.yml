@@ -51,6 +51,7 @@ entryPoints:
       # https://doc.traefik.io/traefik/routing/entrypoints/#middlewares
       # middlewares are defined in the traefik_dynamic_conf.yml file
       middlewares:
+        - "compress-responses@file"
         - "x-served-by@file"
       # https://doc.traefik.io/traefik/routing/entrypoints/#tls
       tls:
