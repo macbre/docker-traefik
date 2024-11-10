@@ -17,14 +17,12 @@
 #  default:
 #    name: public_network  # use this network to expose your containers
 #
-version: "3.9"
-
 services:
 
   # https://doc.traefik.io/traefik/getting-started/install-traefik/
   traefik:
     # https://hub.docker.com/_/traefik/tags
-    image: traefik:v3.1.1
+    image: traefik:v3.1.7
     container_name: traefik
     restart: always
     user: nobody
