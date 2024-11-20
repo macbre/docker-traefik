@@ -69,15 +69,18 @@ services:
 
   # https://github.com/Tecnativa/docker-socket-proxy
   socket-proxy:
-    image: tecnativa/docker-socket-proxy:0.1
+    image: tecnativa/docker-socket-proxy:0.3
     container_name: docker-socket-proxy
     restart: always
     user: root  # needed to mount the docker.sock
     mem_limit: 8M
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - '127.0.0.1:2375:2375'
     # https://github.com/Tecnativa/docker-socket-proxy#grant-or-revoke-access-to-certain-api-sections
     environment:
+      DISABLE_IPV6: true
       CONTAINERS: 1  # only allow GET requests to the containers API section
 
   # https://github.com/traefik/whoami
