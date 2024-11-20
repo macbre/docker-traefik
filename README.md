@@ -43,7 +43,15 @@ networks:
       traefik.http.services.<your app name>.loadbalancer.server.port: "< port where your service is bound too >"  # or rely on ports defined via EXPOSE
 ```
 
-3. Make sure that your container own healthcheck also passes. Traefik filters out containers that do not pass Docker healthchecks.
+3. Make sure that your container own healthcheck also passes. Traefik filters out containers that do not pass Docker healthchecks:
+
+```yaml
+$ DOCKER_HOST=tcp://localhost:2375 docker ps --format json | jq -c "[ .Names,.Status ]"  -r
+["socks5","Up 11 minutes (healthy)"]
+["docker_socket_proxy","Up 21 hours (healthy)"]
+["whoami","Up 21 hours"]
+["traefik","Up 21 hours (healthy)"]
+```
 
 ## Notes
 
