@@ -36,6 +36,7 @@ jobs:
           docker exec traefik whoami | grep nobody
 
           # https://doc.traefik.io/traefik/operations/api/
+          curl -v 127.0.0.1:58888/api/version | jq .
           curl -s 127.0.0.1:58888/api/http/routers | jq -r '.[] | .service' | sort
           curl -s 127.0.0.1:58888/api/http/middlewares | jq -r .[].name | sort
           curl -s 127.0.0.1:58888/api/overview | jq .http
