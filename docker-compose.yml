@@ -91,7 +91,7 @@ services:
 
   # https://github.com/traefik/whoami
   whoami:
-    image: traefik/whoami:v1.10
+    image: traefik/whoami:v1.11
     container_name: whoami
     restart: always
     mem_limit: 8M
