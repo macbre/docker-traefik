@@ -63,9 +63,9 @@ services:
 
     healthcheck:
       test: 'traefik healthcheck'
-      interval: 15s
-      timeout: 3s
-      retries: 2
+      interval: 30s
+      timeout: 15s
+      retries: 1
 
   # https://github.com/Tecnativa/docker-socket-proxy
   socket-proxy:
