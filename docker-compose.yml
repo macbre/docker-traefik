@@ -73,7 +73,7 @@ services:
     container_name: docker_socket_proxy
     restart: always
     user: root  # needed to mount the docker.sock
-    mem_limit: 8M
+    mem_limit: 16M
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
