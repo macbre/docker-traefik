@@ -69,7 +69,7 @@ services:
 
   # https://github.com/Tecnativa/docker-socket-proxy
   socket-proxy:
-    image: tecnativa/docker-socket-proxy:v0.4.1
+    image: tecnativa/docker-socket-proxy:v0.4.2
     container_name: docker_socket_proxy
     restart: always
     user: root  # needed to mount the docker.sock
