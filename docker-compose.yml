@@ -84,7 +84,7 @@ services:
       CONTAINERS: 1  # only allow GET requests to the containers API section
 
     healthcheck:
-      test: 'wget --spider http://socket-proxy:2375/_ping'
+      test: 'wget --spider http://127.0.0.1:2375/_ping'
       interval: 15s
       timeout: 1s
       retries: 2
