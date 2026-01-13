@@ -25,7 +25,7 @@ jobs:
           LOG_LEVEL=DEBUG HOSTNAME=${HOSTNAME} \
             docker compose up -d
 
-          sleep 2
+          sleep 5
           docker ps
 
       - name: Get some Traefik details
