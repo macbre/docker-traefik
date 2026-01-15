@@ -11,7 +11,7 @@ jobs:
     env:
       HOSTNAME: "foo.bar.local"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       - name: Start the traefik container
         run: |
