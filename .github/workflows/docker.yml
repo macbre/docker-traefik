@@ -28,6 +28,9 @@ jobs:
           sleep 5
           docker ps
 
+      - name: Health check
+        run: docker exec traefik traefik healthcheck
+
       - name: Get some Traefik details
         run: |
           set -x
