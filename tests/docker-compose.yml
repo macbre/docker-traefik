@@ -1,7 +1,7 @@
 services:
   nginx:
     # https://github.com/macbre/docker-nginx-http3
-    image: ghcr.io/macbre/nginx-http3:1.31.1
+    image: ghcr.io/macbre/nginx-http3:1.31.2
     container_name: nginx
     ports:
       - "5555:5555"
