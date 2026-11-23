@@ -96,8 +96,11 @@ services:
     restart: always
     mem_limit: 8M
     hostname: ${HOSTNAME:-foo.bar}
-    environment:
-      WHOAMI_NAME: "whoami @ ${HOSTNAME:-foo.bar}"
+    command:
+       - "--name=whoami @ ${HOSTNAME:-foo.bar}"
+       - --verbose
+    ports:
+      - '127.0.0.1:2380:80' # local interface only
     labels:
       traefik.enable: true
       traefik.http.services.whoami.loadbalancer.server.port: 80
