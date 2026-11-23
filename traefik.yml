@@ -67,8 +67,6 @@ entryPoints:
 
   # https://doc.traefik.io/traefik/routing/entrypoints/#address
   tcpep:
-    # https://doc.traefik.io/traefik/security/header-aliases/
-    aliasHeadersStrategy: delete
     address: ":51337"
 
 # https://doc.traefik.io/traefik/https/acme/
