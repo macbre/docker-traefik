@@ -1,4 +1,6 @@
 http:
+  # https://doc.traefik.io/traefik/security/header-aliases/
+  aliasHeadersStrategy: delete
   middlewares:
     x-served-by:
       # https://doc.traefik.io/traefik/middlewares/http/headers/
