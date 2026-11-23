@@ -38,6 +38,7 @@ entryPoints:
   web:
     address: ":1080"
     http:
+      aliasHeadersStrategy: delete
       redirections:
         entrypoint:
           to: ":443"   # as exposed on the host, otherwise we'd get redirects to https://foo.bar:1443/ URLs ...
@@ -48,6 +49,13 @@ entryPoints:
     http3:
       advertisedPort: 443
     http:
+      # for v3.7.12 and later: ensure proper handling of ambiguous header aliases (e.g. X_Auth_User or X.Auth.User for X-Auth-User).
+      # The backends deriving variable names from the header names (CGI, WSGI, PHP, NGINX, ...) read them as the header they alias,
+      # which allows a client to spoof the headers Traefik manages.
+      #
+      # https://doc.traefik.io/traefik/security/header-aliases/
+      aliasHeadersStrategy: delete
+
       # https://doc.traefik.io/traefik/routing/entrypoints/#middlewares
       # middlewares are defined in the traefik_dynamic_conf.yml file
       middlewares:
